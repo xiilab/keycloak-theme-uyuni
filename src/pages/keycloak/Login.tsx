@@ -1,4 +1,4 @@
-import React, { useState, useRef, memo, useEffect } from 'react';
+import React, { useRef, memo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components'; 
 import { Button, TextField } from '@mui/material';
@@ -6,16 +6,11 @@ import { Button, TextField } from '@mui/material';
 import type { KcProps } from 'keycloakify/lib/components/KcProps';
 import type { KcContextType } from '@/utils/keycloakManager';
 
-import CssBaseline from "@mui/material/CssBaseline";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 import back_ground_image from "@/assets/images/login-image.png";
 import back_logo_image from "@/assets/images/login-logo.svg";
@@ -24,110 +19,95 @@ import back_text_image from "@/assets/images/login-text.png";
 type KcContext_Login = Extract<KcContextType, { pageId: 'login.ftl' }>;
 
 
-// login
-
-export const LoginText = styled(Typography)`
-  font-family: Roboto;
-  font-size: 40px;
-  font-weight: 300;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: #04abfc;
+//new
+const LoginBackLogoBox = styled(Box)`
+  padding: 44.5px 56px;
 `;
-
-export const LeftContainer = styled(Grid)`
-  display: flex;
-  flex-direction: column !important;
-  background-color: #2184ff;
-  justify-content: flex-start;
-  @media screen and (max-width: 599px) {
-    display: none;
-  }
-  @media screen and (max-width: 899px) {
-    display: none;
-  }
-`;
-
-export const RightContainer = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-export const LoginBackGroundImage = styled.img`
-  margin-top: 124.5px;
-  width: 335.8px;
-  height: 241px;
-`;
-export const LoginBackGroundBox = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 80%;
-`;
-
-export const LoginBackTextImage = styled.img`
-  width: 628px;
-  height: 117px;
-  text-align: center;
-`;
-
-export const LoginBackLogoImage = styled.img`
+const LoginBackLogoImage = styled.img`
   width: 149.2px;
   height: 24.6px;
 `;
-export const LoginBackLogoBox = styled(Box)`
-  padding-top: 44px;
-  padding-left: 56px;
-  padding-right: 56px;
-  height: 10%;
+
+const LoginBackTextBox = styled(Box)`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 86.9px;
+  margin-bottom: 74px;
 `;
 
-export const LoginBackFooterBox = styled(Box)`
-  height: 10%;
-  display: flex;
-  align-items: flex-end;
+const LoginBackTextImage = styled.img`
+  width: 628px;
+  height: 117px;
 `;
-export const LoginFooter = styled(Box)`
-  display: flex;
+
+const LoginBackGroundBox = styled(Box)`
   width: 100%;
+  display: flex;
+  justify-content: right;
+`;
+
+const LoginBackGroundImage = styled.img`
+  width: 335.8px;
+  height: 241px;
+`;
+
+const LoginBackFooterBox = styled(Box)`
+  /* height: 10%; */
+  /* display: flex; */
+  /* align-items: flex-end; */
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+`;
+
+const LoginFooter = styled(Box)`
+  display: flex;
+  /* width: 100%; */
   height: 52px;
   justify-content: flex-start;
   align-items: center;
   padding-left: 52px;
-  background-image: linear-gradient(to right, #136fe4, #04abfc);
+  background-image: linear-gradient(to right, #1153a7, #00acff);
 `;
 
-export const CopyrightText = styled.p`
+const CopyrightText = styled.p`
   color: #ffffff;
   margin: 0px;
 `;
 
-export const Submit = styled(Button)`
-  height: 68px;
-  box-shadow: 0 4px 8px 0 #b4d7ff;
-  background-color: #04abfc;
-  border-radius: 50px;
+
+const LoginBox = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `;
 
-// login
-
-
+const Submit = styled(Button)`
+  height: 88px;
+  /* box-shadow: 0 4px 8px 0 #b4d7ff; */
+  box-shadow: none;
+  background-color: #04abfc;
+  border-radius: 50px;
+  margin-bottom: 8px;
+`;
 
 const LoginForm = styled.form`
   width: 25rem;
   height: 15rem;
-  background-color: white;
-  /* border-radius: 5px; */
-  /* box-shadow: 2px 2px 8px 0px; */
+  /* background-color: white; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 
 
@@ -145,6 +125,12 @@ function Copyright(props: any) {
 
 export const Login = memo(
 	({ kcContext, ...props }: { kcContext: KcContext_Login } & KcProps) => {
+    
+    const [open, setOpen] = React.useState(false);
+
+    const [alert, setAlert] = React.useState<React.ReactElement>();
+
+    
     const { t } = useTranslation();
     const form = useRef<HTMLFormElement>(null);
 		const { social, url, message, realm, } = kcContext;
@@ -158,122 +144,160 @@ export const Login = memo(
     };
 
     useEffect(() => {
+      
       if (message?.summary === 'emailSentMessage') {
+        setOpen(true);
+        setAlert(
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
+            <h2>{t("success.send.reset.password.email")}</h2>
+            {t("success.send.reset.password.email.default")}
+          </Alert>
+        );
         // toast.success(<Toast title={t('success.send.reset.password.email')} message={t('success.send.reset.password.email.default')} />);
       } else if (message?.summary === 'expiredActionTokenSessionExistsMessage') {
+        setOpen(true);
+        setAlert(
+          <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+            <h2>{t("error.session.expired")}</h2>
+            {t("error.session.expired.default")}
+          </Alert>
+        );
         // toast.error(<Toast title={t('error.session.expired')} message={t('error.session.expired.default')} />);
       } else if (message?.summary === 'accountUpdatedMessage') {
+        setOpen(true);
+        setAlert(
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
+            <h2>{t("success.account.update")}</h2>
+            {t("success.account.update.message")}
+          </Alert>
+        );
         // toast.success(<Toast title={t('success.account.update')} message={t('success.account.update.message')} />);
       }
     }, []);
 
+
+    
+
+
+    
+    // const handleClick = () => {
+    //   setOpen(true);
+    // };
+    const handleClose = (
+      event?: React.SyntheticEvent | Event,
+      reason?: string
+    ) => {
+      if (reason === "clickaway") {
+        return;
+      }
+      setOpen(false);
+    };
+
+
+
 		return (
-      <Grid container component="main" sx={{ height: "100vh" }}>
-        <LeftContainer
-          item
-          xs={false}
-          sm={false}
-          md={9}
-          sx={{}}
-          data-class="LeftContainer"
-        >
-          <LoginBackLogoBox data-class="LoginBackLogoBox">
-            <LoginBackLogoImage
-              src={back_logo_image}
-              data-class="LoginBackLogoImage"
-            />
-          </LoginBackLogoBox>
-          <LoginBackGroundBox data-class="LoginBackGroundBox">
-            <LoginBackTextImage
-              src={back_text_image}
-              data-class="LoginBackTextImage"
-            />
-            <LoginBackGroundImage
-              src={back_ground_image}
-              data-class="LoginBackGroundImage"
-            />
-          </LoginBackGroundBox>
-          <LoginBackFooterBox data-class="LoginBackFooterBox">
-            <LoginFooter data-class="LoginFooter">
-              <Copyright sx={{ mt: 5 }} data-class="Copyright" />
-            </LoginFooter>
-          </LoginBackFooterBox>
-        </LeftContainer>
+      <Grid
+        data-class="container"
+        container
+        component="main"
+        sx={{
+          width: "100%",
+          height: "100vh",
+          // height: "100vh",
+          backgroundImage: "linear-gradient(to left, #04aafb, #136fe4)",
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+        }}
+      >
+        <LoginBackLogoBox>
+          <LoginBackLogoImage src={back_logo_image} />
+        </LoginBackLogoBox>
 
-        <Grid
-          item
-          xs={12}
-          sm={12}
-          md={3}
-          component={Paper}
-          elevation={6}
-          square
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+        <LoginBackTextBox data-class="LoginBackTextBox">
+          <LoginBackTextImage src={back_text_image} />
+        </LoginBackTextBox>
+
+        <LoginBox>
+          <LoginForm ref={form} method="post" action={url.loginAction}>
+            <TextField
+              sx={{
+                backgroundColor: "#fff",
+              }}
+              margin="normal"
+              required
+              fullWidth
+              // label={t("id")}
+              // InputLabelProps={{ shrink: true }}
+              id="username"
+              name="username"
+              autoComplete="username"
+              placeholder={t("id")}
+              autoFocus
+            />
+            <TextField
+              sx={{
+                backgroundColor: "#fff",
+              }}
+              margin="normal"
+              required
+              fullWidth
+              type="password"
+              // label={t("password")}
+              // InputLabelProps={{ shrink: true }}
+              id="password"
+              name="password"
+              placeholder={t("password")}
+              autoComplete="current-password"
+            />
+
+            <Submit
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              {t("login")}
+            </Submit>
+          </LoginForm>
+        </LoginBox>
+
+        <LoginBackGroundBox>
+          <div style={{ width: "410.8px" }}>
+            <LoginBackGroundImage src={back_ground_image} />
+          </div>
+        </LoginBackGroundBox>
+
+        <LoginBackFooterBox data-class="LoginBackFooterBox">
+          <LoginFooter data-class="LoginFooter">
+            <Copyright sx={{ mt: 5 }} data-class="Copyright" />
+          </LoginFooter>
+        </LoginBackFooterBox>
+
+        <Snackbar
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
         >
-          <RightContainer
-            sx={{
-              my: 8,
-              mx: 4,
-            }}
+          {/* <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: "100%" }}
           >
-            <LoginText variant="h5">Login</LoginText>
-            <LoginForm ref={form} method="post" action={url.loginAction}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                label={t("id")}
-                id="username"
-                name="username"
-                autoComplete="username"
-                autoFocus
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                type="password"
-                label={t("password")}
-                id="password"
-                name="password"
-                autoComplete="current-password"
-              />
-              
-              <Submit
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                {t("login")}
-              </Submit>
-              
-            </LoginForm>
-          </RightContainer>
-        </Grid>
-
-        {/* <LoginForm ref={form} method="post" action={url.loginAction}>
-          <LoginInput
-            id="username"
-            name="username"
-            size="small"
-            label={t("id")}
-          />
-          <LoginInput
-            label={t("password")}
-            id="password"
-            name="password"
-            type="password"
-            size="small"
-          />
-          <LoginButton variant="contained" onClick={() => handleSubmit()}>
-            {t("login")}
-          </LoginButton>
-        </LoginForm> */}
+            <h2>This is a success message!</h2>
+            This is a success message!
+          </Alert> */}
+          {alert}
+        </Snackbar>
       </Grid>
     );
 	},
