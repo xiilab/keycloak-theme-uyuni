@@ -1,6 +1,6 @@
 {
   "name": "uyuni-suite",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.4.0",
