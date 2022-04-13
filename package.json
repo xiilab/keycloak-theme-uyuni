@@ -1,5 +1,5 @@
 {
-  "name": "keycloakify-test",
+  "name": "uyuni-suite",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
