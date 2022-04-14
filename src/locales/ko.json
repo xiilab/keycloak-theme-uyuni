@@ -4,5 +4,7 @@
   "menu.services": "서비스",
   "login": "로그인",
   "id": "아이디",
-  "password": "비밀번호"
+  "password": "비밀번호",
+  "invalid.login.title" : "로그인 오류.",
+  "invalid.username.or.password" : "아이디 혹은 패스워드가 일치하지 않습니다."
 }
