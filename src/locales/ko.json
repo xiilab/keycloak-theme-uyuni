@@ -6,5 +6,6 @@
   "id": "아이디",
   "password": "비밀번호",
   "invalid.login.title" : "로그인 오류.",
-  "invalid.username.or.password" : "아이디 혹은 패스워드가 일치하지 않습니다."
+  "invalid.username.or.password" : "아이디 혹은 패스워드가 일치하지 않습니다.",
+  "Your login attempt timed out. Login will start from the beginning.": "로그인 시도 시간이 초과되었습니다. 로그인은 처음부터 시작됩니다."
 }
