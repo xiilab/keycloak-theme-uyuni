@@ -3,17 +3,11 @@ import {useTranslation} from 'react-i18next';
 import styled from 'styled-components';
 import {createGlobalStyle, css} from 'styled-components'
 
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-// import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 
@@ -22,9 +16,10 @@ import type {KcProps} from "keycloakify/lib/components/KcProps";
 import type {KcContextType} from "@/utils/keycloakManager";
 import back_ground_image from "@/assets/images/login-image.png";
 import back_logo_image from "@/assets/images/login-logo.svg";
-import back_text_image from "@/assets/images/login-text.png";
+import back_text_image from "@/assets/images/login-text.svg";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, {AlertProps} from "@mui/material/Alert";
+import LoginText from './login-text'
 
 type KcContext_Login = Extract<KcContextType, { pageId: 'login.ftl' }>;
 
@@ -154,7 +149,7 @@ export const Login = memo(
                 <LoginBackLogoBox>
                     <LoginBackLogoImage src={back_logo_image}/>
                 </LoginBackLogoBox>
-                <Container component="main" maxWidth="xs" data-class="Container">
+                <Container component="main" maxWidth="sm" data-class="Container">
                     <CssBaseline/>
                     <Box
                         sx={{
@@ -162,9 +157,11 @@ export const Login = memo(
                             flexDirection: "column",
                             alignItems: "center",
                         }}
+                        data-class="Box1"
                     >
                         <LoginBackTextBox data-class="LoginBackTextBox">
-                            <LoginBackTextImage src={back_text_image}/>
+                            {/*<LoginBackTextImage src={back_text_image}/>*/}
+                            <LoginText />
                         </LoginBackTextBox>
                         <LoginForm ref={form} method="post" action={url.loginAction}>
                             <TextField
@@ -261,6 +258,9 @@ const LoginBackGroundBox = styled(Box)`
   width: 100%;
   display: flex;
   justify-content: right;
+  position: absolute;
+  bottom: 100px;
+  z-index: -1;
 `;
 
 const LoginBackGroundImage = styled.img`
@@ -322,6 +322,9 @@ const LoginForm = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  .MuiFormControl-root {
+    border-radius: 4px;
+  }
 `;
 
 const Submit = styled(Button)`
