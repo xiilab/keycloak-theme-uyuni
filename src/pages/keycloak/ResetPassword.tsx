@@ -1,27 +1,27 @@
 import React, { useRef, memo, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
-import { createGlobalStyle, css } from 'styled-components'
-
-import Button from '@mui/material/Button'
-import CssBaseline from '@mui/material/CssBaseline'
-import TextField from '@mui/material/TextField'
-import Link from '@mui/material/Link'
-import Box from '@mui/material/Box'
-import Container from '@mui/material/Container'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-
-import type { KcProps } from 'keycloakify/lib/components/KcProps'
-import type { KcContextType } from '@/utils/keycloakManager'
-import back_ground_image from '@/assets/images/login-image.png'
-import back_logo_image from '@/assets/images/login-logo.svg'
-import back_text_image from '@/assets/images/login-text.svg'
-import Snackbar from '@mui/material/Snackbar'
+import { KcProps } from 'keycloakify/lib/components/KcProps'
+import { KcContextType } from '@/utils/keycloakManager'
 import MuiAlert, { AlertProps } from '@mui/material/Alert'
-import LoginText from './login-text'
+import Link from '@mui/material/Link'
+import styled from 'styled-components'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 import GlobalCss from '../common/GlobalCss'
+import back_logo_image from '@/assets/images/login-logo.svg'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Container from '@mui/material/Container'
+import CssBaseline from '@mui/material/CssBaseline'
+import LoginText from '@/pages/keycloak/login-text'
+import TextField from '@mui/material/TextField'
+import back_ground_image from '@/assets/images/login-image.png'
+import Snackbar from '@mui/material/Snackbar'
+import { useTranslation } from 'react-i18next'
 
-type KcContext_Login = Extract<KcContextType, { pageId: 'login.ftl' }>
+type KcContext_UpdatePassword = Extract<
+  KcContextType,
+  { pageId: 'login-update-password.ftl' }
+>
+const theme = createTheme({})
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -42,89 +42,19 @@ function Copyright(props: any) {
   )
 }
 
-const theme = createTheme({})
+const ResetPassword = memo(
+  ({
+    kcContext,
+    ...props
+  }: { kcContext: KcContext_UpdatePassword } & KcProps) => {
+    // url : 전송할 주소
+    const { url, message, realm } = kcContext
 
-export const Login = memo(
-  ({ kcContext, ...props }: { kcContext: KcContext_Login } & KcProps) => {
+    const form = useRef<HTMLFormElement>(null)
+    const { t } = useTranslation()
     const [open, setOpen] = React.useState(false)
 
     const [alert, setAlert] = React.useState<React.ReactElement>()
-
-    const { t } = useTranslation()
-    const form = useRef<HTMLFormElement>(null)
-    const { social, url, message, realm } = kcContext
-    const isSessionOut =
-      message?.summary.includes('attempt timed out') ||
-      message?.summary.includes('Timeout')
-
-    const handleSubmit = () => {
-      console.log(form)
-      form?.current?.submit()
-    }
-
-    useEffect(() => {
-      if (message?.summary === 'emailSentMessage') {
-        setOpen(true)
-        setAlert(
-          <Alert
-            onClose={handleClose}
-            severity="success"
-            sx={{ width: '100%' }}
-          >
-            <AlertTitle>{t('success.send.reset.password.email')}</AlertTitle>
-            {t('success.send.reset.password.email.default')}
-          </Alert>
-        )
-        // toast.success(<Toast title={t('success.send.reset.password.email')} message={t('success.send.reset.password.email.default')} />);
-      } else if (
-        message?.summary === 'expiredActionTokenSessionExistsMessage'
-      ) {
-        setOpen(true)
-        setAlert(
-          <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-            <AlertTitle>{t('error.session.expired')}</AlertTitle>
-            {t('error.session.expired.default')}
-          </Alert>
-        )
-        // toast.error(<Toast title={t('error.session.expired')} message={t('error.session.expired.default')} />);
-      } else if (message?.summary === 'accountUpdatedMessage') {
-        setOpen(true)
-        setAlert(
-          <Alert
-            onClose={handleClose}
-            severity="success"
-            sx={{ width: '100%' }}
-          >
-            <AlertTitle>{t('success.account.update')}</AlertTitle>
-            {t('success.account.update.message')}
-          </Alert>
-        )
-        // toast.success(<Toast title={t('success.account.update')} message={t('success.account.update.message')} />);
-      } else if (message?.summary === 'Invalid username or password.') {
-        setOpen(true)
-        setAlert(
-          <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-            <AlertTitle>{t('invalid.login.title')}</AlertTitle>
-            {t('invalid.username.or.password')}
-          </Alert>
-        )
-        // toast.success(<Toast title={t('success.account.update')} message={t('success.account.update.message')} />);
-      } else if (
-        message?.summary ===
-        'Your login attempt timed out. Login will start from the beginning.'
-      ) {
-        setOpen(true)
-        setAlert(
-          <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-            <AlertTitle>{t('invalid.login.title')}</AlertTitle>
-            {t(
-              'Your login attempt timed out. Login will start from the beginning.'
-            )}
-          </Alert>
-        )
-        // toast.success(<Toast title={t('success.account.update')} message={t('success.account.update.message')} />);
-      }
-    }, [])
 
     const handleClose = (
       event?: React.SyntheticEvent | Event,
@@ -135,6 +65,16 @@ export const Login = memo(
       }
       setOpen(false)
     }
+
+    useEffect(() => {
+      setOpen(true)
+      setAlert(
+        <Alert onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
+          <AlertTitle>패스워드 변경</AlertTitle>
+          계정을 활성화하려면 비밀번호를 변경해야 합니다.
+        </Alert>
+      )
+    }, [])
 
     return (
       <ThemeProvider theme={theme}>
@@ -164,10 +104,11 @@ export const Login = memo(
                 margin="normal"
                 required
                 fullWidth
-                id="username"
-                name="username"
-                autoComplete="username"
-                placeholder={t('id')}
+                type="password"
+                id="password"
+                name="password"
+                autoComplete="password"
+                placeholder={t('password')}
                 autoFocus
               />
               <TextField
@@ -178,9 +119,9 @@ export const Login = memo(
                 required
                 fullWidth
                 type="password"
-                id="password"
-                name="password"
-                placeholder={t('password')}
+                id="password-confirm"
+                name="password-confirm"
+                placeholder={t('password.confirm')}
                 autoComplete="current-password"
               />
 
@@ -190,7 +131,7 @@ export const Login = memo(
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                {t('login')}
+                {t('password.change')}
               </Submit>
             </LoginForm>
           </Box>
@@ -221,7 +162,7 @@ export const Login = memo(
   }
 )
 
-export default Login
+export default ResetPassword
 
 const AlertTitle = styled.h2`
   margin-top: 0;
