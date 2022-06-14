@@ -48,7 +48,7 @@ const ResetPassword = memo(
     ...props
   }: { kcContext: KcContext_UpdatePassword } & KcProps) => {
     // url : 전송할 주소
-    const { url, message, realm } = kcContext
+    const { url, message, realm, username } = kcContext
 
     const form = useRef<HTMLFormElement>(null)
     const { t } = useTranslation()
@@ -97,6 +97,13 @@ const ResetPassword = memo(
               <LoginText />
             </LoginBackTextBox>
             <LoginForm ref={form} method="post" action={url.loginAction}>
+              <input
+                type={'hidden'}
+                name={'username'}
+                value={username}
+                id={'username'}
+              />
+              <input type={'hidden'} name={'password'} id={'password'} />
               <TextField
                 sx={{
                   backgroundColor: '#fff',
@@ -105,8 +112,8 @@ const ResetPassword = memo(
                 required
                 fullWidth
                 type="password"
-                id="password"
-                name="password"
+                id="password-new"
+                name="password-new"
                 autoComplete="password"
                 placeholder={t('password')}
                 autoFocus
