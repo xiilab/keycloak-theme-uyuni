@@ -48,7 +48,12 @@ const ResetPassword = memo(
     ...props
   }: { kcContext: KcContext_UpdatePassword } & KcProps) => {
     // url : 전송할 주소
-    const { url, message, realm, username } = kcContext
+    const {
+      url,
+      // message,
+      // realm,
+      username,
+    } = kcContext
 
     const form = useRef<HTMLFormElement>(null)
     const { t } = useTranslation()

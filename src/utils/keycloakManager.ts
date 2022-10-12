@@ -14,14 +14,22 @@ export const keycloak = Keycloak({
   clientId: publicClientId,
 })
 
-export const { kcContext } = getKcContext<{
-  pageId: 'login.ftl'
-  /**
-   * Defined when you use the keycloak-mail-whitelisting keycloak plugin
-   * (https://github.com/micedre/keycloak-mail-whitelisting)
-   */
-  // authorizedMailDomains?: string[];
-}>({
+export const { kcContext } = getKcContext<
+  | {
+      pageId: 'login.ftl'
+      /**
+       * Defined when you use the keycloak-mail-whitelisting keycloak plugin
+       * (https://github.com/micedre/keycloak-mail-whitelisting)
+       */
+      // authorizedMailDomains?: string[];
+    }
+  | {
+      pageId: 'login-update-password.ftl'
+    }
+  | {
+      pageId: 'login-update-profile.ftl'
+    }
+>({
   // @cindy.choi
   // 아래의 디버깅을 원하는 페이지 주석을 해제하면 하단의 mockData를 적용하여 로컬에 페이지를 띄울 수 있습니다.
   // "mockPageId": "login.ftl",
@@ -31,12 +39,16 @@ export const { kcContext } = getKcContext<{
   // "mockPageId": "login-update-password.ftl",
   // "mockPageId": "info.ftl",
   // "mockPageId": "error.ftl",
+  // mockPageId: 'login-update-profile.ftl',
 
   /**
    * Customize the simulated kcContext that will let us
    * dev the page outside keycloak (with auto-reload)
    */
   mockData: [
+    {
+      pageId: 'login-update-profile.ftl',
+    },
     {
       pageId: 'login.ftl',
       url: {

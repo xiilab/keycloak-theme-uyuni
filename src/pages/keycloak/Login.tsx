@@ -1,7 +1,6 @@
 import React, { useRef, memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { createGlobalStyle, css } from 'styled-components'
 
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -15,7 +14,6 @@ import type { KcProps } from 'keycloakify/lib/components/KcProps'
 import type { KcContextType } from '@/utils/keycloakManager'
 import back_ground_image from '@/assets/images/login-image.png'
 import back_logo_image from '@/assets/images/login-logo.svg'
-import back_text_image from '@/assets/images/login-text.svg'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert, { AlertProps } from '@mui/material/Alert'
 import LoginText from './login-text'
@@ -52,15 +50,20 @@ export const Login = memo(
 
     const { t } = useTranslation()
     const form = useRef<HTMLFormElement>(null)
-    const { social, url, message, realm } = kcContext
-    const isSessionOut =
-      message?.summary.includes('attempt timed out') ||
-      message?.summary.includes('Timeout')
+    const {
+      // social,
+      url,
+      message,
+      // realm
+    } = kcContext
+    // const isSessionOut =
+    //   message?.summary.includes('attempt timed out') ||
+    //   message?.summary.includes('Timeout')
 
-    const handleSubmit = () => {
-      console.log(form)
-      form?.current?.submit()
-    }
+    // const handleSubmit = () => {
+    //   console.log(form)
+    //   form?.current?.submit()
+    // }
 
     useEffect(() => {
       if (message?.summary === 'emailSentMessage') {
@@ -124,6 +127,7 @@ export const Login = memo(
         )
         // toast.success(<Toast title={t('success.account.update')} message={t('success.account.update.message')} />);
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleClose = (
