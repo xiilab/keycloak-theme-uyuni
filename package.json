@@ -24,7 +24,7 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "keycloak": "craco build && build-keycloak-theme",
+    "keycloak": "craco build && keycloakify",
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
