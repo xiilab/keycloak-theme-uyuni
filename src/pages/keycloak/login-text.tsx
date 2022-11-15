@@ -5,7 +5,7 @@ const LoginText = () => {
         <svg xmlns="http://www.w3.org/2000/svg" width="634" height="219" viewBox="0 0 590 100">
             <g fill="none" fillRule="evenodd" transform="translate(-82 -8)">
                 <text fill="#FFF" fontFamily="Ubuntu-Light, Ubuntu" fontSize="54" fontWeight="300">
-                    <tspan x="80" y="50">Welecome to KADaP Cloud</tspan>
+                    <tspan x="230" y="50">KADaP Cloud</tspan>
                 </text>
 
                 <text fill="#FFF" fontFamily="Ubuntu-Medium, Ubuntu" fontSize="14" fontWeight="400" opacity=".8">
