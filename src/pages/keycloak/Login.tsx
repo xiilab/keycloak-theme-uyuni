@@ -13,7 +13,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import type { KcProps } from 'keycloakify/lib/components/KcProps'
 import type { KcContextType } from '@/utils/keycloakManager'
 import back_ground_image from '@/assets/images/login-image.png'
-import back_logo_image from '@/assets/images/login-logo.svg'
+import back_logo_image from '@/assets/images/logo-white.svg'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert, { AlertProps } from '@mui/material/Alert'
 import LoginText from './login-text'
@@ -279,7 +279,7 @@ const LoginBackTextBox = styled(Box)`
   display: flex;
   justify-content: center;
   margin-top: 86.9px;
-  margin-bottom: 74px;
+  margin-bottom: 50px;
 `
 
 const LoginForm = styled.form`

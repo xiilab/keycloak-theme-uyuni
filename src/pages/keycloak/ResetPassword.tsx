@@ -6,7 +6,7 @@ import Link from '@mui/material/Link'
 import styled from 'styled-components'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import GlobalCss from '../common/GlobalCss'
-import back_logo_image from '@/assets/images/login-logo.svg'
+import back_logo_image from '@/assets/images/logo-white.svg'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
@@ -228,7 +228,7 @@ const LoginBackTextBox = styled(Box)`
   display: flex;
   justify-content: center;
   margin-top: 86.9px;
-  margin-bottom: 74px;
+  margin-bottom: 50px;
 `
 
 const LoginForm = styled.form`
