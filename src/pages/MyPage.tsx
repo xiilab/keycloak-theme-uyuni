@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useKeycloak } from '@react-keycloak/web';
+import React from 'react'
+import styled from 'styled-components'
+// import { useKeycloak } from '@react-keycloak/web'
 
 const StyledMy = styled.div`
   width: 100%;
@@ -8,15 +8,11 @@ const StyledMy = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`;
+`
 
 export const MyPage = () => {
-  const { keycloak, } = useKeycloak();
-  return (
-    <StyledMy>
-      Welcome!
-    </StyledMy>
-  );
-};
+  // const { keycloak, } = useKeycloak();
+  return <StyledMy>Welcome!</StyledMy>
+}
 
-export default MyPage;
+export default MyPage

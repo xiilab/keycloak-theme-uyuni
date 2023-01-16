@@ -1,32 +1,30 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { useKeycloak } from '@react-keycloak/web';
+import React from 'react'
+import { Route } from 'react-router-dom'
+import { useKeycloak } from '@react-keycloak/web'
 
 type PrivateRouteProps = {
-  children: React.ReactNode;
-  path: string;
-  exact?: boolean;
-};
+  children: React.ReactNode
+  path: string
+  exact?: boolean
+}
 
 function PrivateRoute({ children, exact = false, ...rest }: PrivateRouteProps) {
-  const { keycloak, initialized } = useKeycloak();
+  const { keycloak, initialized } = useKeycloak()
 
-  if (!initialized) return (<div> loading... </div>);
+  if (!initialized) return <div> loading... </div>
 
   return (
     <Route
       {...rest}
       render={({ location }) =>
         keycloak?.authenticated ? (
-          <>
-            {children}
-          </>
+          <>{children}</>
         ) : (
-          keycloak.login({ redirectUri: window.location.href, })
+          keycloak.login({ redirectUri: window.location.href })
         )
       }
     />
-  );
+  )
 }
 
-export default PrivateRoute;
+export default PrivateRoute
