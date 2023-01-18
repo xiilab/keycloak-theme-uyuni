@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField'
 import Link from '@mui/material/Link'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
 
 import type { KcProps } from 'keycloakify/lib/components/KcProps'
 import type { KcContextType } from '@/utils/keycloakManager'
@@ -41,8 +41,6 @@ function Copyright(props: any) {
   )
 }
 
-const theme = createTheme({})
-
 export const Login = memo(
   ({ kcContext, ...props }: { kcContext: KcContext_Login } & KcProps) => {
     const [open, setOpen] = React.useState(false)
@@ -55,7 +53,7 @@ export const Login = memo(
       // social,
       url,
       message,
-      // realm
+      realm,
     } = kcContext
     // const isSessionOut =
     //   message?.summary.includes('attempt timed out') ||
@@ -142,7 +140,7 @@ export const Login = memo(
     }
 
     return (
-      <ThemeProvider theme={theme}>
+      <>
         <GlobalCss />
         <LoginBackLogoBox>
           <LoginBackLogoImage src={back_logo_image} />
@@ -188,6 +186,16 @@ export const Login = memo(
                 placeholder={t('password')}
                 autoComplete="current-password"
               />
+              {realm.registrationAllowed && (
+                <RegistrationButton
+                  fullWidth
+                  variant="contained"
+                  href={url.registrationUrl}
+                  sx={{ mt: 3, mb: 0 }}
+                >
+                  {t('registration')}
+                </RegistrationButton>
+              )}
 
               <Submit
                 type="submit"
@@ -221,7 +229,7 @@ export const Login = memo(
             <Copyright sx={{ mt: 5 }} data-class="Copyright" />
           </LoginFooter>
         </LoginBackFooterBox>
-      </ThemeProvider>
+      </>
     )
   }
 )
@@ -230,6 +238,14 @@ export default Login
 
 const AlertTitle = styled.h2`
   margin-top: 0;
+`
+
+const RegistrationButton = styled(Button)`
+  height: 88px;
+  box-shadow: none;
+  background-color: #04abfc;
+  border-radius: 50px;
+  margin-bottom: 8px;
 `
 
 const LoginBackGroundBox = styled(Box)`

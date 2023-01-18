@@ -4,7 +4,7 @@ import { defaultKcProps } from 'keycloakify'
 import type { KcContextType } from '@/utils/keycloakManager'
 
 import Login from '@/pages/keycloak/Login'
-// import Register from '@/pages/keycloak/Register';
+import Register from '@/pages/keycloak/Register'
 import ResetPassword from '@/pages/keycloak/ResetPassword'
 // import Info from '@/pages/keycloak/Info';
 import Error404 from '@/pages/common/Error404'
@@ -25,8 +25,11 @@ export const KeycloakApp = memo(
       case 'login.ftl':
         return <Login {...{ kcContext, ...defaultKcProps }} />
 
-      // case 'register.ftl':
-      //   return <Register {...{ kcContext, ...defaultKcProps }} />;
+      /**
+       * 회원가입
+       */
+      case 'register.ftl':
+        return <Register {...{ kcContext, ...defaultKcProps }} />
 
       /**
        * 로그인시 패스워드 변경
