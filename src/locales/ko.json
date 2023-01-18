@@ -21,5 +21,7 @@
   "department": "부서",
   "registration": "회원가입",
   "cancel": "취소",
-  "register": "회원가입"
+  "register": "회원가입",
+  "input-error-email": "이메일이 잘못되었습니다.",
+  "input-error-password-confirm": "비밀번호 확인이 일치하지 않습니다."
 }

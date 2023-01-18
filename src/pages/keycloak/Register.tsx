@@ -13,7 +13,6 @@ import {
 import { useTranslation } from 'react-i18next'
 import Container from '@mui/material/Container'
 import GlobalCss from '../common/GlobalCss'
-
 import back_logo_image from '@/assets/images/login-logo.svg'
 import back_ground_image from '@/assets/images/login-image.png'
 
@@ -34,16 +33,16 @@ function Copyright(props: any) {
 export const Register = memo(
   ({ kcContext, ...props }: { kcContext: KcContext_Register } & KcProps) => {
     const { t } = useTranslation()
+
     const {
       url,
-      register: {
-        formData: { firstName, displayName, lastName, email, username },
-      },
+      register: { formData },
       message,
     } = kcContext
     const form = useRef<HTMLFormElement>(null)
 
-    console.log({ firstName, displayName, lastName, email, username })
+    // console.log({ firstName, displayName, lastName, email, username })
+    console.log(message)
 
     const handleCancel = () => {
       window.location.href = url.loginUrl
@@ -56,6 +55,8 @@ export const Register = memo(
       ) {
         // toast.error(<Toast title={t('error.register')} message={`${caution} ${t('error.register.help')}`} />);
       }
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
@@ -125,6 +126,10 @@ export const Register = memo(
                     id="password-confirm"
                     name="password-confirm"
                     variant="filled"
+                    helperText={
+                      message?.summary?.includes('match') &&
+                      t('input-error-password-confirm')
+                    }
                   />
                 </FormContent>
                 <FormContent>
@@ -155,6 +160,10 @@ export const Register = memo(
                     id="email"
                     name="email"
                     variant="filled"
+                    helperText={
+                      message?.summary?.includes('email') &&
+                      t('input-error-email')
+                    }
                   />
 
                   <Input
@@ -190,6 +199,7 @@ export const Register = memo(
             <LoginBackGroundImage src={back_ground_image} />
           </div>
         </LoginBackGroundBox>
+
         <LoginBackFooterBox data-class="LoginBackFooterBox">
           <LoginFooter data-class="LoginFooter">
             <Copyright sx={{ mt: 5 }} data-class="Copyright" />
@@ -261,6 +271,12 @@ const Input = styled(TextField)`
   /* label[data-shrink='true'] {
     color: #000000;
   } */
+  p.MuiFormHelperText-root {
+    border: none;
+    color: red;
+    position: absolute;
+    right: 0;
+  }
 `
 const Action = styled(Box)`
   width: 100%;
