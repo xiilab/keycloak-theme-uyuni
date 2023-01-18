@@ -13,7 +13,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import Container from '@mui/material/Container'
 import GlobalCss from '../common/GlobalCss'
-import back_logo_image from '@/assets/images/login-logo.svg'
+import back_logo_image from '@/assets/images/seoultech_white.png'
 import back_ground_image from '@/assets/images/login-image.png'
 
 type KcContext_Register = Extract<KcContextType, { pageId: 'register.ftl' }>
@@ -214,8 +214,7 @@ const LoginBackLogoBox = styled(Box)`
   padding: 44.5px 56px 30px;
 `
 const LoginBackLogoImage = styled('img')`
-  width: 149.2px;
-  height: 24.6px;
+  height: 40px;
 `
 
 const LoginBackGroundBox = styled(Box)`
