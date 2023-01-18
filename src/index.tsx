@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals'
 import { ThemeProvider as MaterialThemeProvider } from '@mui/material/styles'
 import MaterialTheme from '@/styles/material-theme'
 import GlobalStyles from '@/styles/global'
+import Font from '@/styles/fonts'
 
 // service ui
 import App from './App'
@@ -20,6 +21,7 @@ ReactDOM.render(
   <React.StrictMode>
     <MaterialThemeProvider theme={MaterialTheme}>
       <GlobalStyles />
+      <Font />
       {kcContext !== undefined ? (
         <KeycloakApp kcContext={kcContext} />
       ) : (
