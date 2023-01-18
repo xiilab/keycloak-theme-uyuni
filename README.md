@@ -1,6 +1,6 @@
 <h1 align="center">Uyuni keycloak Theme 👋</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-1.2.4.2-blue.svg?cacheSeconds=2592000" />
+  <img alt="Version" src="https://img.shields.io/badge/version-1.2.5.2-red.svg?cacheSeconds=2592000" />
 </p>
 
 ## 참고
