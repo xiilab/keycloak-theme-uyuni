@@ -17,7 +17,8 @@ import back_ground_image from '@/assets/images/login-image.png'
 import back_logo_image from '@/assets/images/seoultech_white.png'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert, { AlertProps } from '@mui/material/Alert'
-import LoginText from './login-text'
+// import LoginText from './login-text'
+import LoginText from '@/assets/images/login-text-seoul.png'
 import GlobalCss from '../common/GlobalCss'
 
 type KcContext_Login = Extract<KcContextType, { pageId: 'login.ftl' }>
@@ -156,8 +157,8 @@ export const Login = memo(
             data-class="Box1"
           >
             <LoginBackTextBox data-class="LoginBackTextBox">
-              {/*<LoginBackTextImage src={back_text_image}/>*/}
-              <LoginText />
+              <LoginBackTextImage src={LoginText} />
+              {/* <LoginText /> */}
             </LoginBackTextBox>
             <LoginForm ref={form} method="post" action={url.loginAction}>
               <TextField
@@ -261,6 +262,10 @@ const LoginBackGroundImage = styled.img`
   width: 335.8px;
   height: 241px;
 `
+const LoginBackTextImage = styled.img`
+  width: 634px;
+  height: 239px;
+`
 
 const LoginBackLogoBox = styled(Box)`
   padding: 44.5px 56px 30px;
@@ -300,6 +305,7 @@ const LoginBackTextBox = styled(Box)`
   justify-content: center;
   margin-top: 60px;
   margin-bottom: 0px;
+  padding-left: 30px;
 `
 
 const LoginForm = styled.form`
