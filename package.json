@@ -1,6 +1,6 @@
 {
   "name": "uyuni-suite",
-  "version": "1.2.5.3-seoultech",
+  "version": "1.2.5.2",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.4.0",
