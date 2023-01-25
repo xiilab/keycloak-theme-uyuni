@@ -1,3 +1,4 @@
+name: 배포
 on:
   push:
     # Pattern matched against refs/tags
