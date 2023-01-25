@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - run: npm run keycloak 
+      - run: CI=false npm run keycloak 
       - name: Create release 
         id: create_release
         uses: actions/create-release@v1
