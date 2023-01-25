@@ -19,9 +19,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - name: Build on Keycloak
-        run: npm run keycloak 
+      - run: npm install
+      - run: npm run keycloak 
       - name: Create release 
         id: create_release
         uses: actions/create-release@v1
