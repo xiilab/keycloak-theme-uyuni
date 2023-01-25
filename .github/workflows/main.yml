@@ -40,7 +40,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build_keycloak/target/uyuni-suite-keycloak-theme.jar
+          asset_path: ./build_keycloak/target/uyuni-suite-keycloak-theme-1.2.5.2.jar
           asset_name: uyuni-suite-keycloak-theme-${{ github.ref }}.jar
           asset_content_type: application/java-archive
       - name: Publish release
