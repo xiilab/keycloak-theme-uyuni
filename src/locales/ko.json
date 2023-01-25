@@ -10,6 +10,7 @@
   "invalid.login.title" : "로그인 오류.",
   "invalid.username.or.password" : "아이디 혹은 패스워드가 일치하지 않습니다.",
   "Your login attempt timed out. Login will start from the beginning.": "로그인 시도 시간이 초과되었습니다. 로그인은 처음부터 시작됩니다.",
+  "Account is disabled, contact your administrator.": "계정이 비활성화되었습니다. 관리자에게 문의하십시오.",
   "firstName": "성",
   "lastName": "이름",
   "email": "이메일",

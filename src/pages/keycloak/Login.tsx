@@ -90,6 +90,19 @@ export const Login = memo(
           </Alert>
         )
         // toast.error(<Toast title={t('error.session.expired')} message={t('error.session.expired.default')} />);
+      } else if (
+        message?.summary === 'Account is disabled, contact your administrator.'
+      ) {
+        setOpen(true)
+        setAlert(
+          <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+            <AlertTitle>
+              {t('Account is disabled, contact your administrator.')}
+            </AlertTitle>
+            {t('Account is disabled, contact your administrator.')}
+          </Alert>
+        )
+        // toast.error(<Toast title={t('error.session.expired')} message={t('error.session.expired.default')} />);
       } else if (message?.summary === 'accountUpdatedMessage') {
         setOpen(true)
         setAlert(
