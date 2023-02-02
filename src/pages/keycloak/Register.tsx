@@ -16,6 +16,7 @@ import GlobalCss from '../common/GlobalCss'
 import back_logo_image from '@/assets/images/login-logo.svg'
 import back_ground_image from '@/assets/images/login-image.png'
 import axios from 'axios'
+import { useForm } from 'react-hook-form'
 
 type KcContext_Register = Extract<KcContextType, { pageId: 'register.ftl' }>
 
@@ -38,7 +39,7 @@ type FORM = {
   password: string
   email: string
   groupName: string | null
-  password_confirm: string
+  'password-confirm': string
   auth: 'ROLE_USER'
 }
 
@@ -46,15 +47,22 @@ export const Register = memo(
   ({ kcContext, ...props }: { kcContext: KcContext_Register } & KcProps) => {
     const { t } = useTranslation()
 
-    const [resData, setResData] = React.useState<FORM>({
-      userName: '',
-      firstName: '',
-      lastName: '',
-      password: '',
-      email: '',
-      groupName: null,
-      password_confirm: '',
-      auth: 'ROLE_USER',
+    const {
+      register,
+      handleSubmit,
+      watch,
+      formState: { errors },
+    } = useForm<FORM>({
+      defaultValues: {
+        userName: '',
+        firstName: '',
+        lastName: '',
+        password: '',
+        email: '',
+        groupName: null,
+        'password-confirm': '',
+        auth: 'ROLE_USER',
+      },
     })
 
     const {
@@ -82,17 +90,20 @@ export const Register = memo(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const onSubmit = React.useCallback(
-      (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        // const resisterURL = url.registrationAction;
+    const submit = React.useCallback(
+      (data: FORM) => {
         const resisterURL = `/api/v1/manager/user`
-        axios.post(resisterURL, resData).then((res) => {
-          alert('회원가입이 완료되었습니다.')
-          window.location.href = url.loginUrl
-        })
+        axios
+          .post(resisterURL, data)
+          .then((res) => {
+            alert('회원가입이 완료되었습니다.')
+            window.location.href = url.loginUrl
+          })
+          .catch((error) => {
+            alert('회원가입에 실패했습니다.')
+          })
       },
-      [resData, url.loginUrl]
+      [url.loginUrl]
     )
 
     return (
@@ -101,14 +112,18 @@ export const Register = memo(
         <LoginBackLogoBox>
           <LoginBackLogoImage src={back_logo_image} />
         </LoginBackLogoBox>
-        <Container component="main" maxWidth="sm" data-class="Container">
+        <Container component="main" maxWidth="md" data-class="Container">
           <InputContainer>
             <TitleBox>
               <Title variant="h3" gutterBottom>
                 <h6> {t('join')} </h6>
               </Title>
             </TitleBox>
-            <RegisterForm ref={form} method="post" onSubmit={onSubmit}>
+            <RegisterForm
+              ref={form}
+              method="post"
+              onSubmit={handleSubmit(submit)}
+            >
               <InputBox>
                 <FormContent>
                   <Input
@@ -117,15 +132,12 @@ export const Register = memo(
                     required
                     label={t('username')}
                     id="username"
-                    name="username"
                     variant="filled"
-                    value={resData.userName}
-                    onChange={(e) => {
-                      setResData((prev) => ({
-                        ...prev,
-                        userName: e.target.value,
-                      }))
-                    }}
+                    helperText={
+                      errors['userName']?.type === 'required' &&
+                      t('input-error-userName')
+                    }
+                    {...register('userName', { required: true })}
                   />
                   <Input
                     type="password"
@@ -134,15 +146,12 @@ export const Register = memo(
                     required
                     label={t('password')}
                     id="password"
-                    name="password"
                     variant="filled"
-                    value={resData.password}
-                    onChange={(e) => {
-                      setResData((prev) => ({
-                        ...prev,
-                        [e.target.name]: e.target.value,
-                      }))
-                    }}
+                    helperText={
+                      errors['password']?.type === 'required' &&
+                      t('input-error-password-confirm')
+                    }
+                    {...register('password', { required: true })}
                   />
                   <Input
                     margin="normal"
@@ -151,19 +160,20 @@ export const Register = memo(
                     required
                     label={t('password-confirm')}
                     id="password-confirm"
-                    name="password-confirm"
                     variant="filled"
                     helperText={
-                      message?.summary?.includes('match') &&
+                      // message?.summary?.includes('match') &&
+                      errors['password-confirm'] &&
                       t('input-error-password-confirm')
                     }
-                    value={resData.password_confirm}
-                    onChange={(e) => {
-                      setResData((prev) => ({
-                        ...prev,
-                        password_confirm: e.target.value,
-                      }))
-                    }}
+                    {...register('password-confirm', {
+                      required: true,
+                      validate: (val: string) => {
+                        if (watch('password') !== val) {
+                          return 'Your passwords do no match'
+                        }
+                      },
+                    })}
                   />
                 </FormContent>
                 <FormContent>
@@ -173,15 +183,12 @@ export const Register = memo(
                     required
                     label={t('firstName')}
                     id="firstName"
-                    name="firstName"
                     variant="filled"
-                    value={resData.firstName}
-                    onChange={(e) => {
-                      setResData((prev) => ({
-                        ...prev,
-                        [e.target.name]: e.target.value,
-                      }))
-                    }}
+                    helperText={
+                      errors.firstName?.type === 'required' &&
+                      t('input-error-firstName')
+                    }
+                    {...register('firstName', { required: true })}
                   />
                   <Input
                     margin="normal"
@@ -189,15 +196,12 @@ export const Register = memo(
                     required
                     label={t('lastName')}
                     id="lastName"
-                    name="lastName"
                     variant="filled"
-                    value={resData.lastName}
-                    onChange={(e) => {
-                      setResData((prev) => ({
-                        ...prev,
-                        [e.target.name]: e.target.value,
-                      }))
-                    }}
+                    helperText={
+                      errors.lastName?.type === 'required' &&
+                      t('input-error-lastName')
+                    }
+                    {...register('lastName', { required: true })}
                   />
                   <Input
                     type="email"
@@ -206,19 +210,13 @@ export const Register = memo(
                     required
                     label={t('email')}
                     id="email"
-                    name="email"
                     variant="filled"
                     helperText={
-                      message?.summary?.includes('email') &&
+                      // message?.summary?.includes('email') &&
+                      errors.email?.type === 'required' &&
                       t('input-error-email')
                     }
-                    value={resData.email}
-                    onChange={(e) => {
-                      setResData((prev) => ({
-                        ...prev,
-                        email: e.target.value,
-                      }))
-                    }}
+                    {...register('email', { required: true })}
                   />
                 </FormContent>
               </InputBox>
