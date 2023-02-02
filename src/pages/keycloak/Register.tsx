@@ -15,6 +15,7 @@ import Container from '@mui/material/Container'
 import GlobalCss from '../common/GlobalCss'
 import back_logo_image from '@/assets/images/login-logo.svg'
 import back_ground_image from '@/assets/images/login-image.png'
+import axios from 'axios'
 
 type KcContext_Register = Extract<KcContextType, { pageId: 'register.ftl' }>
 
@@ -30,9 +31,31 @@ function Copyright(props: any) {
   )
 }
 
+type FORM = {
+  userName: string
+  firstName: string
+  lastName: string
+  password: string
+  email: string
+  groupName: string | null
+  password_confirm: string
+  auth: 'ROLE_USER'
+}
+
 export const Register = memo(
   ({ kcContext, ...props }: { kcContext: KcContext_Register } & KcProps) => {
     const { t } = useTranslation()
+
+    const [resData, setResData] = React.useState<FORM>({
+      userName: '',
+      firstName: '',
+      lastName: '',
+      password: '',
+      email: '',
+      groupName: null,
+      password_confirm: '',
+      auth: 'ROLE_USER',
+    })
 
     const {
       url,
@@ -42,7 +65,7 @@ export const Register = memo(
     const form = useRef<HTMLFormElement>(null)
 
     // console.log({ firstName, displayName, lastName, email, username })
-    console.log(message)
+    // console.log(message)
 
     const handleCancel = () => {
       window.location.href = url.loginUrl
@@ -59,6 +82,19 @@ export const Register = memo(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    const onSubmit = React.useCallback(
+      (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        // const resisterURL = url.registrationAction;
+        const resisterURL = `/api/v1/manager/user`
+        axios.post(resisterURL, resData).then((res) => {
+          alert('회원가입이 완료되었습니다.')
+          window.location.href = url.loginUrl
+        })
+      },
+      [resData, url.loginUrl]
+    )
+
     return (
       <>
         <GlobalCss />
@@ -72,32 +108,9 @@ export const Register = memo(
                 <h6> {t('join')} </h6>
               </Title>
             </TitleBox>
-            <RegisterForm
-              ref={form}
-              method="post"
-              action={url.registrationAction}
-            >
+            <RegisterForm ref={form} method="post" onSubmit={onSubmit}>
               <InputBox>
                 <FormContent>
-                  <Input
-                    margin="normal"
-                    fullWidth
-                    required
-                    label={t('firstName')}
-                    id="firstName"
-                    name="firstName"
-                    variant="filled"
-                  />
-                  <Input
-                    margin="normal"
-                    fullWidth
-                    required
-                    label={t('lastName')}
-                    id="lastName"
-                    name="lastName"
-                    variant="filled"
-                  />
-
                   <Input
                     margin="normal"
                     fullWidth
@@ -106,6 +119,13 @@ export const Register = memo(
                     id="username"
                     name="username"
                     variant="filled"
+                    value={resData.userName}
+                    onChange={(e) => {
+                      setResData((prev) => ({
+                        ...prev,
+                        userName: e.target.value,
+                      }))
+                    }}
                   />
                   <Input
                     type="password"
@@ -116,6 +136,13 @@ export const Register = memo(
                     id="password"
                     name="password"
                     variant="filled"
+                    value={resData.password}
+                    onChange={(e) => {
+                      setResData((prev) => ({
+                        ...prev,
+                        [e.target.name]: e.target.value,
+                      }))
+                    }}
                   />
                   <Input
                     margin="normal"
@@ -130,26 +157,47 @@ export const Register = memo(
                       message?.summary?.includes('match') &&
                       t('input-error-password-confirm')
                     }
+                    value={resData.password_confirm}
+                    onChange={(e) => {
+                      setResData((prev) => ({
+                        ...prev,
+                        password_confirm: e.target.value,
+                      }))
+                    }}
                   />
                 </FormContent>
                 <FormContent>
                   <Input
-                    type="tel"
                     margin="normal"
                     fullWidth
                     required
-                    label={t('phone')}
-                    id="user.attributes.phone"
-                    name="user.attributes.phone"
+                    label={t('firstName')}
+                    id="firstName"
+                    name="firstName"
                     variant="filled"
+                    value={resData.firstName}
+                    onChange={(e) => {
+                      setResData((prev) => ({
+                        ...prev,
+                        [e.target.name]: e.target.value,
+                      }))
+                    }}
                   />
                   <Input
-                    type="tel"
                     margin="normal"
-                    label={t('mobile')}
-                    id="user.attributes.mobile"
-                    name="user.attributes.mobile"
+                    fullWidth
+                    required
+                    label={t('lastName')}
+                    id="lastName"
+                    name="lastName"
                     variant="filled"
+                    value={resData.lastName}
+                    onChange={(e) => {
+                      setResData((prev) => ({
+                        ...prev,
+                        [e.target.name]: e.target.value,
+                      }))
+                    }}
                   />
                   <Input
                     type="email"
@@ -164,16 +212,13 @@ export const Register = memo(
                       message?.summary?.includes('email') &&
                       t('input-error-email')
                     }
-                  />
-
-                  <Input
-                    margin="normal"
-                    fullWidth
-                    required
-                    label={t('department')}
-                    id="user.attributes.department"
-                    name="user.attributes.department"
-                    variant="filled"
+                    value={resData.email}
+                    onChange={(e) => {
+                      setResData((prev) => ({
+                        ...prev,
+                        email: e.target.value,
+                      }))
+                    }}
                   />
                 </FormContent>
               </InputBox>
@@ -188,7 +233,7 @@ export const Register = memo(
                 </CancelButton>
                 <SubmitButton type="submit" variant="contained">
                   {' '}
-                  {t('register')}{' '}
+                  {t('register')}
                 </SubmitButton>
               </Action>
             </RegisterForm>
