@@ -49,3 +49,20 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           id: ${{ steps.create_release.outputs.id }}
+    
+  change_uyuni_deploy:
+    if: false == contains(github.ref_name , '-') #v1.2.5.4-seoul-tech 같은 - 문자가 없도록 조건문 추가
+    needs: build
+    name: 릴리즈 배포후 설치코드 변경
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Uyuni_Deploy
+        uses: actions/checkout@v3
+        with:
+          repository: 'https://github.com/xiilab/Uyuni_Deploy.git'
+          token: ${{ secrets.TOKEN }}
+      - run: |
+          sed -i 's/\<themeUrl.*/themeUrl: https://github.com/xiilab/keycloak-theme-uyuni/releases/download/${{github.ref_name}}/uyuni-suite-keycloak-theme-${{github.ref_name}}.jar/' ./environments/default/values.yaml
+          git add ./environments/default/values.yaml
+          git commit -m "깃헙액션에서 자동으로 치환됨"
+          git push
