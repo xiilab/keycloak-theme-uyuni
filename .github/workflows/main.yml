@@ -59,8 +59,7 @@ jobs:
       - name: Checkout Uyuni_Deploy
         uses: actions/checkout@v3
         with:
-          repository: 'https://github.com/xiilab/Uyuni_Deploy.git'
-          token: ${{ secrets.TOKEN }}
+          repository: 'xiilab/Uyuni_Deploy'
       - run: |
           sed -i 's/\<themeUrl.*/themeUrl: https://github.com/xiilab/keycloak-theme-uyuni/releases/download/${{github.ref_name}}/uyuni-suite-keycloak-theme-${{github.ref_name}}.jar/' ./environments/default/values.yaml
           git add ./environments/default/values.yaml
