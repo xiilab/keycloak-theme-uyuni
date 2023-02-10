@@ -30,7 +30,7 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body: |
-            ![image](https://jjalbang.today/jjv2KQ.jpg)
+            ![image](https://jjalbang.today/files/jjalbox/2016/09/20160901_57c790147b051.gif)
             - 깃헙 액션에서 자동으로 생성됨
           draft: true
           prerelease: false
@@ -66,5 +66,5 @@ jobs:
           git config --global user.name "100milliongold"
           sed -i 's|\<themeUrl.*|themeUrl: https://github.com/xiilab/keycloak-theme-uyuni/releases/download/${{github.ref_name}}/uyuni-suite-keycloak-theme-${{github.ref_name}}.jar|' ./environments/default/values.yaml
           git add ./environments/default/values.yaml
-          git commit -m ":orange_heart::yellow_heart::green_heart::purple_heart::brown_heart::black_heart::white_heart:깃헙액션에서 자동으로 치환됨:pray::pray::pray::pray::pray::pray::pray::pray::pray::pray::pray:"
+          git commit -m "${{ steps.date.outputs.date }} 김재억 님께서 제작하신 github acrion 에서 치환됨"
           git push
