@@ -2,7 +2,7 @@ name: 배포
 on:
   push:
     # Pattern matched against refs/tags
-    tags:        
+    tags:
       - '**' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
@@ -20,8 +20,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - run: CI=false npm run keycloak 
-      - name: Create release 
+      - run: CI=false npm run keycloak
+      - name: Create release
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -49,7 +49,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           id: ${{ steps.create_release.outputs.id }}
-    
+
   change_uyuni_deploy:
     if: false == contains(github.ref_name , '-') #v1.2.5.4-seoul-tech 같은 - 문자가 없도록 조건문 추가
     needs: build
@@ -61,6 +61,26 @@ jobs:
         with:
           token: ${{ secrets.TOKEN }}
           repository: 'xiilab/Uyuni_Deploy'
+      - run: |
+          git config --global user.email "je.kim@xiilab.com"
+          git config --global user.name "100milliongold"
+          sed -i 's|\<themeUrl.*|themeUrl: https://github.com/xiilab/keycloak-theme-uyuni/releases/download/${{github.ref_name}}/uyuni-suite-keycloak-theme-${{github.ref_name}}.jar|' ./environments/default/values.yaml
+          git add ./environments/default/values.yaml
+          git commit -m "${{ steps.date.outputs.date }} 김재억 님께서 제작하신 github acrion 에서 치환됨"
+          git push
+
+  change_uyuni_deploy_dev:
+    if: false == contains(github.ref_name , '-') #v1.2.5.4-seoul-tech 같은 - 문자가 없도록 조건문 추가
+    needs: build
+    name: 릴리즈 배포후 설치코드 변경 DEV
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Uyuni_Deploy DEV
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.TOKEN }}
+          repository: 'xiilab/Uyuni_Deploy'
+          ref: develop
       - run: |
           git config --global user.email "je.kim@xiilab.com"
           git config --global user.name "100milliongold"

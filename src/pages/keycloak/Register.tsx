@@ -181,19 +181,6 @@ export const Register = memo(
                     margin="normal"
                     fullWidth
                     required
-                    label={t('firstName')}
-                    id="firstName"
-                    variant="filled"
-                    helperText={
-                      errors.firstName?.type === 'required' &&
-                      t('input-error-firstName')
-                    }
-                    {...register('firstName', { required: true })}
-                  />
-                  <Input
-                    margin="normal"
-                    fullWidth
-                    required
                     label={t('lastName')}
                     id="lastName"
                     variant="filled"
@@ -202,6 +189,19 @@ export const Register = memo(
                       t('input-error-lastName')
                     }
                     {...register('lastName', { required: true })}
+                  />
+                  <Input
+                    margin="normal"
+                    fullWidth
+                    required
+                    label={t('firstName')}
+                    id="firstName"
+                    variant="filled"
+                    helperText={
+                      errors.firstName?.type === 'required' &&
+                      t('input-error-firstName')
+                    }
+                    {...register('firstName', { required: true })}
                   />
                   <Input
                     type="email"
