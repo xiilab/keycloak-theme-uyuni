@@ -10,7 +10,7 @@ import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 
-import type { KcProps } from 'keycloakify/lib/components/KcProps'
+import type { KcProps } from 'keycloakify/lib'
 import type { KcContextType } from '@/utils/keycloakManager'
 import back_ground_image from '@/assets/images/login-image.png'
 import back_logo_image from '@/assets/images/login-logo.svg'
@@ -198,25 +198,25 @@ export const Login = memo(
                 placeholder={t('password')}
                 autoComplete="current-password"
               />
-              {realm.registrationAllowed && (
-                <RegistrationButton
-                  fullWidth
-                  variant="contained"
-                  href={url.registrationUrl}
-                  sx={{ mt: 3, mb: 0 }}
-                >
-                  {t('registration')}
-                </RegistrationButton>
-              )}
 
               <Submit
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 0 }}
               >
                 {t('login')}
               </Submit>
+              {realm.registrationAllowed && (
+                <RegistrationButton
+                  fullWidth
+                  variant="contained"
+                  href={url.registrationUrl}
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  {t('registration')}
+                </RegistrationButton>
+              )}
             </LoginForm>
           </Box>
         </Container>
@@ -308,7 +308,7 @@ const LoginBackTextBox = styled(Box)`
   display: flex;
   justify-content: center;
   margin-top: 86.9px;
-  margin-bottom: 74px;
+  margin-bottom: 50px;
 `
 
 const LoginForm = styled.form`
