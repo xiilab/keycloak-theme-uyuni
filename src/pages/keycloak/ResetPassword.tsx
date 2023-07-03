@@ -1,5 +1,5 @@
 import React, { useRef, memo, useEffect } from 'react'
-import { KcProps } from 'keycloakify/lib/components/KcProps'
+import { KcProps } from 'keycloakify/lib'
 import { KcContextType } from '@/utils/keycloakManager'
 import MuiAlert, { AlertProps } from '@mui/material/Alert'
 import Link from '@mui/material/Link'

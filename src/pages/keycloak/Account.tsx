@@ -3,7 +3,7 @@ import React, { memo, useRef } from 'react'
 import { Box, Tabs, Tab, TextField, Button } from '@mui/material'
 import { Layout } from '@/components'
 import { KcContextType } from '@/utils/keycloakManager'
-import type { KcProps } from 'keycloakify/lib/components/KcProps'
+import type { KcProps } from 'keycloakify/lib'
 
 type KcContext_Account = Extract<
   KcContextType,

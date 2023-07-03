@@ -1,6 +1,6 @@
 import React, { useRef, memo, useEffect } from 'react'
 import { styled } from '@mui/system'
-import type { KcProps } from 'keycloakify/lib/components/KcProps'
+import type { KcProps } from 'keycloakify/lib'
 import type { KcContextType } from '@/utils/keycloakManager'
 import {
   Button,

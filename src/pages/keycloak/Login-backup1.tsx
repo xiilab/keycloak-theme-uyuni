@@ -1,23 +1,22 @@
-import React, { useRef, memo, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components'; 
-import { Button, TextField } from '@mui/material';
+import React, { useRef, memo, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import { Button, TextField } from '@mui/material'
 
-import type { KcProps } from 'keycloakify/lib/components/KcProps';
-import type { KcContextType } from '@/utils/keycloakManager';
+import type { KcProps } from 'keycloakify/lib'
+import type { KcContextType } from '@/utils/keycloakManager'
 
-import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
+import Link from '@mui/material/Link'
+import Paper from '@mui/material/Paper'
+import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
 
-import back_ground_image from "@/assets/images/login-image.png";
-import back_logo_image from "@/assets/images/login-logo.svg";
-import back_text_image from "@/assets/images/login-text.png";
+import back_ground_image from '@/assets/images/login-image.png'
+import back_logo_image from '@/assets/images/login-logo.svg'
+import back_text_image from '@/assets/images/login-text.png'
 
-type KcContext_Login = Extract<KcContextType, { pageId: 'login.ftl' }>;
-
+type KcContext_Login = Extract<KcContextType, { pageId: 'login.ftl' }>
 
 // login
 
@@ -30,7 +29,7 @@ export const LoginText = styled(Typography)`
   line-height: normal;
   letter-spacing: normal;
   color: #04abfc;
-`;
+`
 
 export const LeftContainer = styled(Grid)`
   display: flex;
@@ -43,49 +42,49 @@ export const LeftContainer = styled(Grid)`
   @media screen and (max-width: 899px) {
     display: none;
   }
-`;
+`
 
 export const RightContainer = styled(Box)`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
+`
 
 export const LoginBackGroundImage = styled.img`
   margin-top: 124.5px;
   width: 335.8px;
   height: 241px;
-`;
+`
 export const LoginBackGroundBox = styled(Box)`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 80%;
-`;
+`
 
 export const LoginBackTextImage = styled.img`
   width: 628px;
   height: 117px;
   text-align: center;
-`;
+`
 
 export const LoginBackLogoImage = styled.img`
   width: 149.2px;
   height: 24.6px;
-`;
+`
 export const LoginBackLogoBox = styled(Box)`
   padding-top: 44px;
   padding-left: 56px;
   padding-right: 56px;
   height: 10%;
-`;
+`
 
 export const LoginBackFooterBox = styled(Box)`
   height: 10%;
   display: flex;
   align-items: flex-end;
-`;
+`
 export const LoginFooter = styled(Box)`
   display: flex;
   width: 100%;
@@ -94,23 +93,21 @@ export const LoginFooter = styled(Box)`
   align-items: center;
   padding-left: 52px;
   background-image: linear-gradient(to right, #136fe4, #04abfc);
-`;
+`
 
 export const CopyrightText = styled.p`
   color: #ffffff;
   margin: 0px;
-`;
+`
 
 export const Submit = styled(Button)`
   height: 68px;
   box-shadow: 0 4px 8px 0 #b4d7ff;
   background-color: #04abfc;
   border-radius: 50px;
-`;
+`
 
 // login
-
-
 
 const LoginForm = styled.form`
   width: 25rem;
@@ -122,47 +119,50 @@ const LoginForm = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`;
-
+`
 
 function Copyright(props: any) {
   return (
     <CopyrightText variant="body2" {...props}>
-      {"Copyright © "}
+      {'Copyright © '}
       <Link color="inherit" href="https://xiilab.com/main">
         system Corp.
-      </Link>{" "}
+      </Link>{' '}
       All Rights Reserved.
     </CopyrightText>
-  );
+  )
 }
 
 export const Login = memo(
-	({ kcContext, ...props }: { kcContext: KcContext_Login } & KcProps) => {
-    const { t } = useTranslation();
-    const form = useRef<HTMLFormElement>(null);
-		const { social, url, message, realm, } = kcContext;
-    const isSessionOut = message?.summary.includes('attempt timed out') || message?.summary.includes('Timeout');
+  ({ kcContext, ...props }: { kcContext: KcContext_Login } & KcProps) => {
+    const { t } = useTranslation()
+    const form = useRef<HTMLFormElement>(null)
+    const { social, url, message, realm } = kcContext
+    const isSessionOut =
+      message?.summary.includes('attempt timed out') ||
+      message?.summary.includes('Timeout')
 
-    console.log(kcContext);
+    console.log(kcContext)
 
     const handleSubmit = () => {
-      console.log(form);
-      form?.current?.submit();
-    };
+      console.log(form)
+      form?.current?.submit()
+    }
 
     useEffect(() => {
       if (message?.summary === 'emailSentMessage') {
         // toast.success(<Toast title={t('success.send.reset.password.email')} message={t('success.send.reset.password.email.default')} />);
-      } else if (message?.summary === 'expiredActionTokenSessionExistsMessage') {
+      } else if (
+        message?.summary === 'expiredActionTokenSessionExistsMessage'
+      ) {
         // toast.error(<Toast title={t('error.session.expired')} message={t('error.session.expired.default')} />);
       } else if (message?.summary === 'accountUpdatedMessage') {
         // toast.success(<Toast title={t('success.account.update')} message={t('success.account.update.message')} />);
       }
-    }, []);
+    }, [])
 
-		return (
-      <Grid container component="main" sx={{ height: "100vh" }}>
+    return (
+      <Grid container component="main" sx={{ height: '100vh' }}>
         <LeftContainer
           item
           xs={false}
@@ -203,9 +203,9 @@ export const Login = memo(
           elevation={6}
           square
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
           <RightContainer
@@ -220,7 +220,7 @@ export const Login = memo(
                 margin="normal"
                 required
                 fullWidth
-                label={t("id")}
+                label={t('id')}
                 id="username"
                 name="username"
                 autoComplete="username"
@@ -231,27 +231,26 @@ export const Login = memo(
                 required
                 fullWidth
                 type="password"
-                label={t("password")}
+                label={t('password')}
                 id="password"
                 name="password"
                 autoComplete="current-password"
               />
-              
+
               <Submit
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                {t("login")}
+                {t('login')}
               </Submit>
-              
             </LoginForm>
           </RightContainer>
         </Grid>
       </Grid>
-    );
-	},
-);
+    )
+  }
+)
 
-export default Login;
+export default Login
