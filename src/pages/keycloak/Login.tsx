@@ -275,7 +275,7 @@ const LoginBackGroundImage = styled.img`
 `
 
 const LoginBackLogoBox = styled(Box)`
-  padding: 44.5px 56px 30px;
+  padding: 26.5px 39px 63px;
 `
 const LoginBackLogoImage = styled.img`
   width: 149.2px;

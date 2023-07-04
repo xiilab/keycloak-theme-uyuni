@@ -16,7 +16,7 @@ const LoginText = () => {
           fontWeight="300"
         >
           {/* <tspan x="85" y="50"> */}
-          <tspan x="105" y="70">
+          <tspan x="127" y="70">
             Welcome to Uyuni
           </tspan>
         </text>
@@ -26,10 +26,9 @@ const LoginText = () => {
                 </text> */}
         <rect width="38" height="18" x="528" y="11" rx="2" />
         <text fill="#FFF" fontFamily="Ubuntu-Regular, Ubuntu" fontSize="14">
-          {/* <tspan x="537" y="25"> */}
-          <tspan x="510" y="70">
+          {/* <tspan x="510" y="70">
             Suite
-          </tspan>
+          </tspan> */}
         </text>
       </g>
     </svg>
