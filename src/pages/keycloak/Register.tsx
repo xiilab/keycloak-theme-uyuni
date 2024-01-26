@@ -61,6 +61,7 @@ export const Register = memo(
         email: '',
         groupName: null,
         'password-confirm': '',
+        joinYN: "JOIN",
         auth: 'ROLE_USER',
       },
     })
@@ -92,7 +93,7 @@ export const Register = memo(
 
     const submit = React.useCallback(
       (data: FORM) => {
-        const resisterURL = `/api/v1/manager/user`
+        const resisterURL = `/api/v1/manager/user/join`
         axios
           .post(resisterURL, data)
           .then((res) => {
